@@ -1,0 +1,30 @@
+name: Extract ICT App
+on:
+  push:
+    paths:
+      - '.github/workflows/extract-app.yml'
+      - 'ICT_Lesson_1_Full_541_Installable_App.zip'
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract app files
+        run: |
+          unzip -o ICT_Lesson_1_Full_541_Installable_App.zip -d .app_extract
+          cp .app_extract/index.html ./index.html
+          cp .app_extract/manifest.webmanifest ./manifest.webmanifest
+          cp .app_extract/sw.js ./sw.js
+          cp .app_extract/icon-192.png ./icon-192.png
+          cp .app_extract/icon-512.png ./icon-512.png
+          cp .app_extract/README.txt ./APP_README.txt
+          rm -rf .app_extract
+      - name: Commit extracted source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html manifest.webmanifest sw.js icon-192.png icon-512.png APP_README.txt
+          git diff --cached --quiet || git commit -m 'Extract full 541-question ICT app source'
+          git push
