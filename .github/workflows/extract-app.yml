@@ -28,3 +28,4 @@ jobs:
           git add index.html manifest.webmanifest sw.js icon-192.png icon-512.png APP_README.txt
           git diff --cached --quiet || git commit -m 'Extract full 541-question ICT app source'
           git push
+# extraction trigger
